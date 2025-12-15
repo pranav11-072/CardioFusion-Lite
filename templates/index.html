@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>CardioFusion Lite</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@2/css/pico.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <h2>CardioFusion Lite</h2>
+      <span id="connBadge" class="badge badge--off">Disconnected</span>
+    </header>
+
+    <div class="grid">
+      <section class="panel">
+        <h4>Monitor</h4>
+        <div class="vitals-grid">
+          <div>HR: <span id="vitalHR">--</span></div>
+          <div>Mode: <span id="vitalMode">--</span></div>
+          <div>LRL: <span id="vitalLRL">--</span></div>
+          <div>State: <span id="vitalState">--</span></div>
+        </div>
+        <h5>ECG (Surface)</h5>
+        <canvas id="ecgCanvas" width="400" height="150"></canvas>
+        <h5 class="egm-label">EGM (Intracardiac)</h5>
+        <canvas id="egmCanvas" width="400" height="150"></canvas>
+      </section>
+
+      <section class="panel">
+        <h4>Programmer</h4>
+        <label>Mode
+          <select id="mode">
+            <option value="VVI">VVI</option>
+            <option value="AAI" disabled>AAI (later)</option>
+          </select>
+        </label>
+        <label>LRL
+          <input type="range" id="lrl" min="30" max="100" value="60" />
+          <small><span id="lrlValue">60</span> bpm</small>
+        </label>
+        <hr />
+        <button id="helloBtn">Say hello to server</button>
+        <div id="serverLog" class="log"></div>
+      </section>
+
+      <section class="panel">
+        <h4>Webcam (Patient HR)</h4>
+        <video id="video" autoplay playsinline width="320" height="240" class="video"></video>
+        <h3 id="hrDisplay" class="hr-display">HR: -- BPM</h3>
+        <div class="row">
+          <button id="camBtn">Start Camera</button>
+          <small id="camStatus" class="muted">Permission not requested yet.</small>
+        </div>
+        <small>This HR is now the patient's intrinsic rhythm.</small>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <script src="{{ url_for('static', filename='js/client.js') }}"></script>
+</body>
+</html>
